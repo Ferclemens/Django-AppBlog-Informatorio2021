@@ -4,6 +4,7 @@ from app.post.models import Post
 
 @admin.register(Post)
 class PostAdmin(admin.ModelAdmin):
-    list_display = ("titulo", "categoria", "fecha_creacion", "slug", "descripcion", "estado")
-    list_filter = ("estado",)
+    list_display = ("titulo", "categoria", "fecha_creacion", "slug", "descripcion", "estado", "numero_comentarios", "numero_visitas")
+    list_filter = ("estado", "destacado")
     search_fields = ("cuerpo", "titulo")
+    

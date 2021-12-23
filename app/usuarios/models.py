@@ -3,7 +3,7 @@ from django.utils import timezone
 
 
 # Create your models here.
-class Usuarios(models.Model):
+"""class Usuarios(models.Model):
 
     nombre         = models.CharField('Nombre', max_length=100, null=False, blank=False)
     apellido       = models.CharField('Apellido', max_length=100, null=False, blank=False)
@@ -15,4 +15,4 @@ class Usuarios(models.Model):
         ordering = ("fecha_registro",)
     
     def __str__(self) -> str:
-        return self.id
+        return str(self.nombre)"""

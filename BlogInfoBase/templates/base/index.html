@@ -1,24 +1,141 @@
-{% extends "base/base.html" %} {%block contenido%} {%for post in posts%}
-<article>
-    < <div class="container px-4 px-lg-5">
-        <div class="row gx-4 gx-lg-5 justify-content-center">
-            <div class="col-md-10 col-lg-8 col-xl-7">
-                <!-- Post preview-->
-                <div class="post-preview">
-                    <a href="post.html">
-                        <h2 class="post-title">
-                            {{post.titulo}}                           
-                        </h2>
-                        <a href="http://127.0.0.1:8000/"><img src="{{post.img.url}}" alt="imagen del post" /></a>
-                        <h3 class="post-subtitle">
-                            Publicado el día<time datetime="2012-10-15T12:00">{{post.fecha_creacion}}</time>
-                            <p>{{post.descripcion}}</p>
-                        </h3>
-                </div>
-</article>
-{%endfor%} {%endblock%}
+{%extends 'base/base.html'%}
+{%load static%}
 
-<!--
-    Este archivo simplemente itera sobre todos los posts que hay en la base de datos y muestra los títulos de cada uno
-    Es solo para probar que funcione
--->
+{%block titulo%}<title>InfoBlog | Inicio</title>{%endblock%}
+    {%block contenido%}
+    <!-- Home -->
+    {%block header%}
+    <section class="home py-5 d-flex align-items-center" id="header" style="background-image: url({% static 'assets/img/savetheplanet.jpg' %})">
+        <div class="container text-light py-5"  data-aos="fade-right"> 
+            <h1 class="headline">17 Objetivos de Desarrollo Sostenible<br>para un único desafío:<br> <span class="home_text">Salvar el Planeta</span></h1>
+            <div class="d-flex align-items-center">
+                <!--
+                <p class="p-2"><i class="fas fa-laptop-house fa-lg"></i></p>
+                <p>Lorem ipsum dolor sit amet.</p>  
+            </div>
+            <div class="d-flex align-items-center">
+                <p class="p-2"><i class="fas fa-wifi fa-lg"></i></p>
+                <p>Lorem ipsum dolor sit amet.</p>  
+            </div>
+            <div class="my-3">
+                <a class="btn" href="#plans">View Plans</a>
+                -->
+            </div>
+        </div> 
+    </section>
+    {%endblock%}
+    <br><br>
+         <!-- end of home -->
+    <section class="information">
+        <div class="container">
+            <div class="row">
+                <!-- Posts del blog -->
+                <div class="col-lg-8">
+                    <!-- Post destacado -->
+                    {% block destacado %}
+                    <div class="card mb-4">
+                        <a href="{{post_destacado.obtener_url_absoluta}}"><img class="card-img-top" src="{{post_destacado.img.url}}" alt="..." /></a>
+                        <div class="card-body">
+                            <div class="small text-muted">{{post_destacado.fecha_creacion}} - Post destacado</div>
+                            <h2 class="card-title">{{post_destacado.titulo}}</h2>                            
+                            <p class="card-text">{{post_destacado.descripcion}}</p>
+                            <a class="btn btn-tertiary my-2" href="{{post_destacado.obtener_url_absoluta}}">Leer más →</a>
+                        </div>
+                    </div>
+                    {% endblock %}
+
+                    <!-- Nested row for non-featured blog posts-->
+
+                    {%block posts%}
+                    <div class="row">
+                        {%comment%} 
+                        Se toma un slice de los dos primeros grupos de posts a mostrar
+                        Se hace debido a que la variable de contexto paginas se ve algo como:
+                        [QuerySet[post1, post2], QuerySet[post3, post4]]
+
+                        Está compuesta de grupos de dos posts, y dos de esos grupos forma la grilla de 4x4 
+                        posts que se muestran.
+                        
+                        {%endcomment%}
+                        {%for pagina in paginas|slice:":2"%}
+                        
+                            <div class="col-lg-6">
+                                <!-- Blog post-->
+
+                                {%for post in pagina%}
+                                
+                                <div class="card mb-4">
+                                    <a href="#!"><img class="card-img-top" src="{{post.img.url}}" alt="..." /></a>
+                                    <div class="card-body">
+                                        <div class="small text-muted">{{post.fecha_creacion}}</div>
+                                        <h2 class="card-title h4">{{post.titulo}}</h2>
+                                        <p class="card-text">{{post.descripcion}}</p>
+                                        <a class="btn btn-tertiary my-2" href="{{post.obtener_url_absoluta}}">Leer más →</a>
+                                    </div>
+                                </div>
+                                {%empty%}
+
+                                <h2>No hay resultados.</h2>
+
+                                {%endfor%}
+
+                            </div>
+                        {%endfor%}
+                        
+                    </div>
+                    {%endblock%}
+                    <!-- Paginación -->
+                    {%block paginacion%}
+                    <nav aria-label="Pagination">
+                        <hr class="my-0" />
+                        <ul class="pagination justify-content-center my-4">
+                            <li class="page-item disabled"><a class="page-link" href="#" tabindex="-1" aria-disabled="true">Más recientes</a></li>
+                            
+                            {%for numero in numero_paginas%}
+                                
+                            {%if numero == "..."%}
+                                <li class="page-item disabled"><a class="page-link" href="#!">...</a></li>
+                                                        
+                            {%else%}
+                                <li class="page-item" ><a class="page-link" href="{% url 'post:vista_paginada' numero %}">{{numero}}</a></li>
+                            {%endif%}
+                            {%endfor%}
+                            <li class="page-item disabled"><a class="page-link" href="#!">Más antiguos</a></li>
+                        </ul>
+                    </nav>
+                    {%endblock%}
+                </div>
+                <!-- Widgets-->
+                <div class="col-lg-4">
+                    <!-- Search widget-->
+                    <div class="card mb-4">
+                        <div class="card-header">Búsqueda</div>
+                        <div class="card-body">
+                        <form class="form-inline"> 
+                            
+                            <div class="form-group mx-sm-3 mb-2">                      
+                                <input class="form-control" type="search" placeholder="Ingrese su búsqueda... " aria-label="Enter search term..." aria-describedby="button-search" name="busqueda" />
+                                <button class="btn btn-tertiary my-2" id="button-search" type="submit">Buscar</button>
+                            </div> 
+
+                        </form> 
+                        
+                        </div>
+                    </div>
+                    <!-- Categories widget-->
+                    <div class="card mb-4">
+                        <div class="card-header">Filtros</div>
+                        <div class="card-body">
+                            {% include 'base/filtrado.html' %}
+                        </div>
+                    </div>
+                    <!-- Side widget-->
+                    <div class="card mb-4">
+                        <div class="card-header">Filtrar por fecha</div>
+                        <div class="card-body">{% include 'base/fecha.html' %}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+  {%endblock%}

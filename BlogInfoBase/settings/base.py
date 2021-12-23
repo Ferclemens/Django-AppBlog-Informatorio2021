@@ -12,7 +12,6 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 
 from pathlib import Path
 import os
-
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -28,8 +27,13 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+#-----------------------------------------------
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/'
+#------------------------------------------------
 
 # Application definition
+
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -42,7 +46,18 @@ INSTALLED_APPS = [
     'app.comentarios',
     'app.post',
     'app.usuarios',
+    'crispy_forms',
+    'ckeditor',
+
 ]
+
+CKEDITOR_CONFIGS = {
+    'default': {
+        'toolbar': 'full',
+    },
+}
+
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -67,6 +82,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'app.utils.context_processors.obtener_post_destacado',
+                'app.utils.context_processors.obtener_categorias'
             ],
         },
     },
@@ -113,7 +130,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'es-es'
 
 TIME_ZONE = 'America/Argentina/Buenos_aires'
 

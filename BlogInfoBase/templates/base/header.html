@@ -1,66 +1,71 @@
 {% load static %}
-<header class="container row navbar navbar-expand-lg">
-  <nav class="navblog">
-    <div class="container-fluid">
-      <a class="navbar-brand" href="http://127.0.0.1:8000/"
-        ><img
-          class="logo-infoblog"
-          src="{% static 'assets/icons/infoblog-logo.png' %}"
-          alt="logo informatorio blog"
-      /></a>
-      <button
-        class="navbar-toggler"
-        type="button"
-        data-bs-toggle="collapse"
-        data-bs-target="#navbarSupportedContent"
-        aria-controls="navbarSupportedContent"
-        aria-expanded="false"
-        aria-label="Toggle navigation"
-      >
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-          <li class="nav-item">
-            <a
-              class="nav-link"
-              aria-current="page"
-              href="http://127.0.0.1:8000/"
-              >Inicio</a
-            >
-          </li>
+<nav class="navbar navbar-expand-lg navbar-light tremendo" id="mainNav">
+  <div class="container px-4 px-lg-5">
+    <a class="navbar-brand" href="/">Info Blog</a>
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarResponsive"
+      aria-controls="navbarResponsive"
+      aria-expanded="false"
+      aria-label="Toggle navigation">
+      <p>Menu</p>
+      <i class="fas fa-bars"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+      <ul class="navbar-nav ms-auto py-4 py-lg-0">
+        <li class="nav-item">
+          <a class="nav-link px-lg-3 py-3 py-lg-4" href="/"
+            >Inicio</a
+          >
+        </li>
+        <li class="nav-item">
+          <a class="nav-link px-lg-3 py-3 py-lg-4" href="about.html"
+            >Sobre nosotros</a
+          >
+        </li>
+        <!-- Inicio y registro de usuarios -->
+        {% if user.is_authenticated %}
+        <li class="nav-item mt-auto">
+          <div class="badge bg-primary text-wrap">{{user.username}}</div>
+          <a
+            class="nav-link"
+            aria-current="page"
+            href="{% url 'logout' %}"
+            >Cerrar Sesión</a
+          >
+        </li>
+        {% else %}
+        <li class="nav-item">
+          <a
+            class="nav-link"
+            aria-current="page"
+            href="{% url 'login' %}"
+            >Iniciar Sesión</a
+          >
+        </li>
+        {% endif %}
+        </li>
+        <li class="nav-item">
+          <a class="nav-link px-lg-3 py-3 py-lg-4" href="{% url 'registro' %}"
+            >Registrarse</a
+          >
+        </li>
+        <!-- Fin inicio y registro de usuarios -->
+        <li class="nav-item dropdown">
+          <a class="nav-link px-lg-3 py-3 py-lg-4 dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Objetivos
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
 
-          <li class="nav-item dropdown">
-            <a
-              class="nav-link dropdown-toggle"
-              href="#"
-              id="navbarDropdown"
-              role="button"
-              data-toggle="dropdown"
-              aria-haspopup="true"
-              aria-expanded="false"
-            >
-              Categorías
-            </a>
-            <div class="dropdown-menu" aria-labelledby="navbarDropdown"></div>
-          </li>
-        </ul>
-      </div>
+            {%for categoria in categorias%}
+            <li><a class="dropdown-item" href="/categoria/{{categoria.nombre}}/">{{categoria}}</a></li>
+            {%endfor%}
+            
+          </ul>
+        </li>
+      </ul>
     </div>
-  </nav>
-</header>
-<script
-  src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
-  integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
-  crossorigin="anonymous"
-></script>
-<script
-  src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
-  integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
-  crossorigin="anonymous"
-></script>
-<script
-  src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
-  integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
-  crossorigin="anonymous"
-></script>
+  </div>
+</nav>

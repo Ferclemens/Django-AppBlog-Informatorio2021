@@ -35,3 +35,15 @@ Settings
 
 - Configuradas las distintas settings
 - Solucionados errores varios de nombres
+
+#--------------------------------------------
+USUARIOS
+- se crea funcion de registro (views.py) y archivo forms.py en app post.
+- se agrega la app de crispy forms, rutas de login y logout en settings/base. 
+- se crean los templates de login y registro
+
+COMENTARIOS
+- se ocultan los comentarios a usuarios anonimos, logueo necesario para leer y comentar.
+
+#--------------------------------------------
+

@@ -1,5 +1,7 @@
 from django.db import models
 from app.categoria.models import Categoria
+from django.urls import reverse
+from ckeditor.fields import RichTextField
 
 # Create your models here.
 class Post(models.Model):
@@ -13,8 +15,17 @@ class Post(models.Model):
         
         return f"post/{instance.id}/{filename}"
 
+    def obtener_url_absoluta(self):
+        '''Toma: self.
+           Devuelve: La URL del post en cuestión usando el atributo slug del post.
+           Usada en: index.html como href de la tag <a> en la línea de la imagen del post.
+           Cada vez que se presione en la imagen de un post en la página principal, se llamará
+           esta función, la que llamará al patrón de url "vista_post".'''
+
+        return reverse('post:vista_post', args=[self.slug])
+
     titulo = models.CharField('Título', 
-                              max_length=100, 
+                              max_length=150, 
                               null=False, 
                               blank=False)
 
@@ -32,13 +43,21 @@ class Post(models.Model):
                             null=False, 
                             blank=False)
 
-    cuerpo = models.TextField('Cuerpo')
+    cuerpo = RichTextField('Cuerpo',
+                              null=False, 
+                              blank=False, default="")
 
     img = models.ImageField(upload_to=user_directory_path, default="post/infoblog-logo.png")
 
     estado = models.BooleanField('Publicado/No publicado', default=True)
 
     categoria = models.ForeignKey(Categoria, on_delete=models.SET(0))
+
+    destacado = models.BooleanField("Destacar", default=False)
+
+    numero_visitas = models.IntegerField(default=0, editable=False)
+
+    numero_comentarios = models.IntegerField(default=0, editable=False)
 
     # la forma mas facil de ocultar un post es poniéndole una categoría que no se muestre
     # Si no, la lógica para eliminar o cambiar un atributo se vuelve complicada, ya que
@@ -47,3 +66,6 @@ class Post(models.Model):
 
     class Meta:
         ordering = ('fecha_creacion', )
+
+    def __str__(self) -> str:
+        return self.titulo
