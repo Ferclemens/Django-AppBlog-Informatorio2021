@@ -3,7 +3,7 @@ ___
 ## Introducción
 
 Este es el repositorio privado donde estaremos trabajando durante el desarrollo.
-Este repositorio se mantendrá siempre privado, al momento de tener que presentar el proyecto, se abrirá un nuevo repositorio público con los archivos que sean absolutamente necesarios para evitar filtrar datos como pasó en el repositorio de Augusto, que dejaron las claves privadas de Django y las credenciales del correo que usaban para la gestión de la página.
+Este repositorio se mantendrá siempre privado, al momento de tener que presentar el proyecto, se abrirá un nuevo repositorio público con los archivos que sean absolutamente necesarios para evitar filtrar datos.
 ___
 ## _Primeros pasos_
 
